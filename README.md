@@ -10,7 +10,7 @@
 
 #### 1. **Clone & Setup**
 ```bash
-git clone https://github.com/trholy/LunchHunt.git
+git clone https://github.com/trholy/lunchhunt.git
 cd lunchhunt
 pip install .
 ```
@@ -31,7 +31,7 @@ Run the script or schedule the script to run daily (e.g., using `cron` or `sched
 python example_2.py
 ```
 **Receive push notifications with:**
-* ‼️LunchHunt‼️ Alerts with location details.
+* !! ️LunchHunt !!!️ Alerts with location details.
 
 ### **Benefits for Busy Devs like You:**
 * **Save Time**: No more `for` loops through food websites!
