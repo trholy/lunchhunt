@@ -1,5 +1,5 @@
-from LunchHunt import MensaScraper
-from LunchHunt import Notifier
+from lunchhunt import MensaScraper
+from lunchhunt import Notifier
 
 import logging
 import sys

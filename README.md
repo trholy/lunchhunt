@@ -11,7 +11,7 @@
 #### 1. **Clone & Setup**
 ```bash
 git clone https://github.com/trholy/LunchHunt.git
-cd LunchHunt
+cd lunchhunt
 pip install .
 ```
 

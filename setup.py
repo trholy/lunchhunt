@@ -1,14 +1,14 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="LunchHunt",
+    name="lunchhunt",
     version="0.1.0",
     author="Thomas R. Holy",
     author_email="thomas.robert.holy@gmail.com",
     description="LunchHunt! Your Personal Food Concierge!",
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    url="https://github.com/trholy/LunchHunt",
+    url="https://github.com/trholy/lunchhunt",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     classifiers=[
