@@ -10,6 +10,7 @@ pages:
     # Ensure the docs directory exists
     - mkdir -p docs
     # Copy all Markdown files and images into the docs directory
+    - cp -r img/. docs/img
     - cp -r documentation/. docs/
     - cp README.md docs/
     # Build MkDocs site
