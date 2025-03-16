@@ -7,8 +7,10 @@ nav:
   - Scrap Module:
       - MensaScraper: scrap/scraper.md
   - Notify Module:
-      - Notifier: notify.md
       - Notifier: notify/notifier.md
+  - Example Usage:
+      - Mensa Dishes Notification: examples/example_1.md
+      - Favorite Foods Notification: examples/example_2.md
 
 # Ensure images are served correctly
 markdown_extensions:
