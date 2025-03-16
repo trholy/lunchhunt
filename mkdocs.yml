@@ -5,9 +5,10 @@ theme:
 nav:
   - Home: README.md
   - Scrap Module:
-      - MensaScraper: scrap.md
+      - MensaScraper: scrap/scraper.md
   - Notify Module:
       - Notifier: notify.md
+      - Notifier: notify/notifier.md
 
 # Ensure images are served correctly
 markdown_extensions:

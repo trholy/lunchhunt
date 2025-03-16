@@ -12,6 +12,8 @@ pages:
     # Copy all Markdown files and images into the docs directory
     - cp -r img/. docs/img
     - cp -r documentation/. docs/
+    - cp -r documentation/notify/. docs/notify
+    - cp -r documentation/scrap/. docs/scrap
     - cp README.md docs/
     # Build MkDocs site
     - mkdocs build
