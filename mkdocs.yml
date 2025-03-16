@@ -1,0 +1,15 @@
+site_name: LunchHunt Documentation
+theme:
+  name: material
+
+nav:
+  - Home: README.md
+  - Scrap Module:
+      - MensaScraper: scrap.md
+  - Notify Module:
+      - Notifier: notify.md
+
+# Ensure images are served correctly
+markdown_extensions:
+  - attr_list
+  - md_in_html
