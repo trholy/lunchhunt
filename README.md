@@ -6,6 +6,10 @@
 
 **Introducing LunchHunt: Your Python-Powered Food Concierge**
 
+### **Documentation**
+
+Read the documentation on [GitLab Pages](https://to82lod.gitpages.uni-jena.de/lunchhunt/).
+
 ### **Get Started in 4 Easy Steps:**
 
 #### 1. **Clone & Setup**
