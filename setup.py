@@ -24,6 +24,7 @@ setup(
     install_requires=[
         "requests>=2.32.3",
         "beautifulsoup4>=4.13.3",
+        "dash>=3.0.0"
     ],
     extras_require={
         "dev": [
