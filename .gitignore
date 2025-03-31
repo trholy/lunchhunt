@@ -6,3 +6,5 @@
 *.iml
 *.txt
 *.egg-info
+/settings
+/develop

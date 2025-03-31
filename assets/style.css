@@ -1,0 +1,110 @@
+/* Dark Mode Styles */
+body {
+    background-color: #121212;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+/* Container */
+.dark-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+/* Cards */
+.dark-card {
+    background-color: #222;
+    border: 1px solid #333;
+    padding: 20px;
+    border-radius: 5px;
+    margin: 20px auto;
+    width: 80%;
+    max-width: 600px;
+}
+
+/* Inputs */
+.dark-input, .dark-input-small {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.dark-input-small {
+    width: 100px;
+}
+
+/* Buttons */
+.dark-button {
+    margin: 10px auto;
+    display: block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    width: 100%;
+    max-width: 200px;
+}
+
+.dark-button:hover {
+    background-color: #0056b3;
+}
+
+/* Dropdown */
+.Select-control {
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+}
+
+.Select-menu-outer {
+    background-color: #444;
+    border: 1px solid #666;
+}
+
+/* Dropdown Options */
+.Select-option {
+    color: white;
+    background-color: #444;
+    padding: 10px;
+}
+
+.Select-option:hover {
+    background-color: #555;
+}
+
+/* Multi-select selected items */
+.Select--multi .Select-value {
+    background-color: #007BFF;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 3px;
+}
+
+/* Multi-select remove 'X' button */
+.Select--multi .Select-value-icon {
+    color: white;
+    cursor: pointer;
+}
+
+.Select--multi .Select-value-icon:hover {
+    color: #ddd;
+}
+
+/* Selected dropdown text (single selection) */
+.Select-value-label {
+    color: white !important;
+}
+
+/* Ensure dropdown placeholder text is readable */
+.Select-placeholder {
+    color: #bbb;
+}
