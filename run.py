@@ -4,7 +4,6 @@ from lunchhunt import Notifier
 
 import logging
 import sys
-import os
 
 
 # Configure logging to stdout
@@ -28,9 +27,7 @@ if __name__ == "__main__":
 
     # Get settings for scraper and notifier
     scraper_settings, schedule_settings, gotify_settings = load_settings(
-        path=os.path.join(
-            os.sep, 'home', 'lunchhunt', 'app', 'settings'
-        ) + os.sep + settings_file
+        path=f'/home/lunchhunt/app/settings/{settings_file}'
     )
 
     # Filter categories depending on time of execution
