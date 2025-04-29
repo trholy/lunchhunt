@@ -33,4 +33,9 @@ setup(
         ]
     },
     test_suite='pytest',
+    entry_points={
+        'console_scripts': [
+            'lunchhunt-web = lunchhunt.web.webUI:main',
+        ]
+    },
 )
