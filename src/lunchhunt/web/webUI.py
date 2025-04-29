@@ -2,9 +2,12 @@ from lunchhunt.utils import create_cronjob
 
 from dash import Dash, dcc, html, no_update, Input, Output, State
 
-from typing import  List, Dict, Tuple, Any
+from typing import List, Dict, Tuple, Any
+import subprocess
+import logging
 import json
 import os
+import re
 
 
 class LunchHuntApp:
@@ -109,6 +112,7 @@ class LunchHuntApp:
                 self.gotify_settings_section(),
                 self.save_settings_section(),
                 self.delete_profiles_section(),
+                self.delete_cronjobs_section(),
                 html.Div(
                     id="save-output",
                     style={
@@ -357,6 +361,31 @@ class LunchHuntApp:
                 })],
             style=self.section_style())
 
+    def delete_cronjobs_section(self) -> html.Div:
+        return html.Div([
+            html.H2("Delete Cron Jobs", style=self.headline_H2_style()),
+            dcc.Dropdown(
+                id="delete-cronjobs-dropdown",
+                options=[
+                    {"label": job_name, "value": full_cronjob}
+                    for job_name, full_cronjob in self.get_existing_cronjobs()],
+                multi=True,
+                placeholder="Select cron jobs to delete",
+                style=self.dropdown_style()),
+            html.Button(
+                "Delete Selected Cron Jobs",
+                id="delete-cronjobs-button",
+                n_clicks=0,
+                style=self.button_style("#FF4136")),
+            html.Div(
+                id="delete-cron-output",
+                style={
+                    "margin": "10px auto",
+                    "text-align": "center",
+                    "color": "#fff"
+                })],
+            style=self.section_style())
+
     @staticmethod
     def headline_H2_style() -> Dict[str, str]:
         return {"margin": "10px 0", "color": "#fff"}
@@ -525,6 +554,40 @@ class LunchHuntApp:
             return ""
 
         @self.app.callback(
+            Output("delete-cron-output", "children"),
+            [Input("delete-cronjobs-button", "n_clicks")],
+            [State("delete-cronjobs-dropdown", "value")]
+        )
+        def delete_selected_cronjobs(
+                n_clicks: int,
+                selected_jobs: List[str]
+        ) -> str:
+            if n_clicks > 0 and selected_jobs:
+                try:
+                    result = subprocess.run(
+                        ["crontab", "-l", "-u", "lunchhunt"],
+                        capture_output=True, text=True
+                    )
+                    existing_crontab = result.stdout if result.returncode == 0 else ""
+
+                    # Filter out the jobs based on the full cron job string
+                    new_lines = [
+                        line for line in existing_crontab.splitlines()
+                        if line.strip() not in selected_jobs
+                    ]
+
+                    new_crontab = "\n".join(new_lines) + "\n"
+                    subprocess.run(
+                        ["crontab", "-u", "lunchhunt", "-"],
+                        input=new_crontab, text=True, check=True
+                    )
+
+                    return f"Successfully deleted {len(selected_jobs)} cron job(s)."
+                except subprocess.CalledProcessError as e:
+                    return f"Error modifying crontab: {str(e)}"
+            return ""
+
+        @self.app.callback(
             [
                 Output("favorite-foods", "value"),
                 Output("menu-categories-dropdown", "value"),
@@ -663,6 +726,23 @@ class LunchHuntApp:
             ]
             return options, options
 
+        @self.app.callback(
+            Output("delete-cronjobs-dropdown", "options"),
+            [Input("save-settings", "n_clicks")]
+        )
+        def update_cronjobs_dropdown_options(
+                n_clicks: int
+        ) -> List[Dict[str, str]]:
+            cronjobs = self.get_existing_cronjobs()
+
+            if not cronjobs:
+                return []
+
+            return [
+                {"label": job_name, "value": full_cronjob}
+                for job_name, full_cronjob in cronjobs
+            ]
+
     @staticmethod
     def update_alarm_days(alarm_days) -> Dict[str, str]:
         return {day: True for day in alarm_days} if alarm_days else {}
@@ -676,6 +756,41 @@ class LunchHuntApp:
             file for file in os.listdir(self.settings_dir)
             if file.endswith(self.file_type)
         ]
+
+    @staticmethod
+    def get_existing_cronjobs() -> List[tuple]:
+        try:
+            result = subprocess.run(
+                ["crontab", "-l", "-u", "lunchhunt"],
+                capture_output=True, text=True
+            )
+            if result.returncode != 0:
+                return []
+
+            lines = result.stdout.splitlines()
+            cronjobs = []
+
+            for line in lines:
+                line = line.strip()
+                if line and not line.startswith("#"):
+                    match = re.search(
+                        r'^(\d{1,2})\s+(\d{1,2}).*?run\.py\s+([^\s]+)\.json',
+                        line
+                    )
+                    if match:
+                        minute = match.group(1)
+                        hour = match.group(2)
+                        settings_name = match.group(3)
+
+                        time_str = f"{hour.zfill(2)}:{minute.zfill(2)}"
+                        cronjob_name = f"{time_str} - {settings_name}"
+
+                        cronjobs.append((cronjob_name, line))
+
+            return cronjobs
+        except Exception as e:
+            logging.error("Error fetching cron jobs:", e)
+            return []
 
     def modify_mensa_name(self) -> List[Tuple[str, str, str]]:
         return [
