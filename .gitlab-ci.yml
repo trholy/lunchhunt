@@ -20,7 +20,7 @@ build_image:
       - lunchhunt.tar
     expire_in: 1 week
   only:
-    - develop
+    - main
   tags:
     - docker
 
