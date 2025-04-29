@@ -1,3 +1,5 @@
+from lunchhunt.utils import create_cronjob
+
 from dash import Dash, dcc, html, no_update, Input, Output, State
 
 from typing import  List, Dict, Tuple, Any
@@ -490,6 +492,12 @@ class LunchHuntApp:
                 )
                 with open(filepath, 'w') as file:
                     json.dump(settings_data, file, indent=4)
+
+                create_cronjob(
+                    schedule_settings=settings_data['schedule_settings'],
+                    settings_name=f"{settings_file}"
+                )
+
                 return f"Settings saved to {filepath}. Please reload the Page!"
             return ""
 
