@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  lunchhunt:
+    image: lunchhunt
+    ports:
+      - "8050:8050"
+    environment:
+      - TZ=Europe/Berlin
+    restart: unless-stopped
