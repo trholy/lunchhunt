@@ -1,21 +1,18 @@
-image: docker:latest
-
-services:
-  - docker:dind
-
-variables:
-  DOCKER_TLS_CERTDIR: ""  # Disable TLS for GitLab shared runners
-
 stages:
   - build
-  - deploy
   - pages
 
 build_image:
   stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  variables:
+    DOCKER_TLS_CERTDIR: ""
   before_script:
     - apk add --no-cache bash curl git
   script:
+    - docker info
     - docker build -t lunchhunt:latest .
     - docker save lunchhunt:latest -o lunchhunt.tar
   artifacts:
@@ -24,6 +21,8 @@ build_image:
     expire_in: 1 week
   only:
     - develop
+  tags:
+    - docker
 
 pages:
   stage: pages
