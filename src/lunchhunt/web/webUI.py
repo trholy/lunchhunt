@@ -18,7 +18,10 @@ class LunchHuntApp:
         self.default_settings = default_settings or self._default_settings_dict()
         self.mensa_dict = mensa_dict or self._default_mensa_dict()
 
-        self.app = Dash(__name__)
+        self.app = Dash(
+            __name__,
+            assets_folder='/home/lunchhunt/app/assets/'
+        )
         self.setup_layout()
         self.setup_callbacks()
 
