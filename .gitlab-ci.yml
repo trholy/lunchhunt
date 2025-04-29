@@ -1,21 +1,41 @@
-image: python:3.9
+image: docker:latest
+
+services:
+  - docker:dind
+
+variables:
+  DOCKER_TLS_CERTDIR: ""  # Disable TLS for GitLab shared runners
 
 stages:
+  - build
   - deploy
+  - pages
+
+build_image:
+  stage: build
+  before_script:
+    - apk add --no-cache bash curl git
+  script:
+    - docker build -t lunchhunt:latest .
+    - docker save lunchhunt:latest -o lunchhunt.tar
+  artifacts:
+    paths:
+      - lunchhunt.tar
+    expire_in: 1 week
+  only:
+    - develop
 
 pages:
-  stage: deploy
+  stage: pages
+  image: python:3.9
   script:
     - pip install mkdocs mkdocs-material
-    # Ensure the docs directory exists
     - mkdir -p docs
-    # Copy all Markdown files and images into the docs directory
     - cp -r img/. docs/img
     - cp -r documentation/notify/. docs/notify
     - cp -r documentation/scrap/. docs/scrap
     - cp -r documentation/examples/. docs/examples
     - cp README.md docs/
-    # Build MkDocs site
     - mkdocs build
     - mv site public
   artifacts:
