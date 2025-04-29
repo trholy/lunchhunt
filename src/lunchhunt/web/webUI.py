@@ -695,10 +695,10 @@ class LunchHuntApp:
                             ),
                         # settings_file
                         "settings_file":
-                            loaded_settings.get(
+                            os.path.splitext(loaded_settings.get(
                                 "settings_file",
                                 self.default_settings.get("settings_file")
-                            )
+                            ))[0]
                     })
 
                     return tuple(self.default_settings.values()) + (
