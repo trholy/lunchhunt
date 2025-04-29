@@ -31,6 +31,7 @@ class LunchHuntApp:
             # Scraper Settings
             "favorite_food": None,
             "menu_category": "Mittagessen",
+            "offset": 30,
             "mensa": "EAP",
             # Schedule Settings
             "hour": 9,
@@ -173,7 +174,22 @@ class LunchHuntApp:
                 ],
                 value=self.default_settings.get("menu_category", "Mittagessen"),
                 multi=True,
-                style=self.dropdown_style())],
+                style=self.dropdown_style()),
+            html.Label(
+                "Pick-up Offset: ",
+                title="This is the minimum amount of time before closing time"
+                      " at which notifications are sent."
+                      "\nWarm breakfast: 8:00-10:00"
+                      "\nLunch service: 11:00-14:00"
+                      "\nSnack in between: 15:00-16:30"
+                      "\nDinner canteen 17:30-19:30",
+                style=self.label_style()),
+            dcc.Input(
+                id="offset-input",
+                type="number",
+                min=10, max=240, step=10,
+                value=self.default_settings.get("offset", 30),
+                style=self.input_style())],
             style=self.section_style())
 
     def mensen_dropdown_section(self) -> html.Div:
@@ -407,6 +423,7 @@ class LunchHuntApp:
             [
                 State("favorite-foods", "value"),
                 State("menu-categories-dropdown", "value"),
+                State("offset-input", "value"),
                 State("mensen-dropdown", "value"),
                 State("hour-input", "value"),
                 State("minute-input", "value"),
@@ -422,6 +439,7 @@ class LunchHuntApp:
                 n_clicks: int,
                 favorite_foods: List[str],
                 menu_categories: List[str],
+                offset: int,
                 mensen: List[str],
                 hour: int,
                 minute: int,
@@ -451,6 +469,7 @@ class LunchHuntApp:
                         if isinstance(mensen, list) else [mensen],
                     },
                     "schedule_settings": {
+                        "offset": offset,
                         "hour": hour,
                         "minute": minute,
                         "alarm_days": self.update_alarm_days(alarm_days),
@@ -501,6 +520,7 @@ class LunchHuntApp:
             [
                 Output("favorite-foods", "value"),
                 Output("menu-categories-dropdown", "value"),
+                Output("offset-input", "value"),
                 Output("mensen-dropdown", "value"),
                 Output("hour-input", "value"),
                 Output("minute-input", "value"),
@@ -559,6 +579,11 @@ class LunchHuntApp:
                                 self.default_settings.get("mensen")
                             ),
                         # schedule_settings
+                        "offset":
+                            schedule_settings.get(
+                                "offset",
+                                self.default_settings.get("offset")
+                            ),
                         "hour":
                             schedule_settings.get(
                                 "hour",
@@ -609,8 +634,8 @@ class LunchHuntApp:
                         f"Settings loaded from {profile}",
                     )
                 except Exception as e:
-                    return [no_update] * 11 + [f"Error loading settings: {e}"]
-            return [no_update] * 11 + [no_update]
+                    return [no_update] * 12 + [f"Error loading settings: {e}"]
+            return [no_update] * 12 + [no_update]
 
         @self.app.callback(
             [
