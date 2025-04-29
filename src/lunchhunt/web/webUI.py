@@ -44,7 +44,7 @@ class LunchHuntApp:
             "priority": 5,
             "secure": False,
             # Settings File
-            "settings_file": "settings"
+            "settings_file": "settings.json"
         }
 
     @staticmethod
@@ -92,7 +92,7 @@ class LunchHuntApp:
         self.app.layout = html.Div([
             html.Div([
                 html.H1(
-                    "LunchHunt Settings",
+                    "LunchHunt",
                     style={
                         "margin": "20px",
                         "color": "#fff",
@@ -195,7 +195,7 @@ class LunchHuntApp:
     def timer_settings_section(self) -> html.Div:
         return html.Div([
             html.H2(
-                "Timer Settings",
+                "Timer",
                 style=self.headline_H2_style()),
         html.Div([
             html.Label(
@@ -241,7 +241,7 @@ class LunchHuntApp:
     def gotify_settings_section(self) -> html.Div:
         return html.Div([
             html.H2(
-                "Gotify Settings",
+                "Gotify",
                 style=self.headline_H2_style()),
             html.Div([
                 html.Label(
@@ -296,12 +296,13 @@ class LunchHuntApp:
     def save_settings_section(self) -> html.Div:
         return html.Div([
             html.H2(
-                "Save Settings",
+                "Save",
                 style=self.headline_H2_style()),
             dcc.Input(
                 id="settings-file",
                 type="text",
-                value=self.default_settings.get("settings_file", "settings"),
+                value=os.path.splitext(self.default_settings.get(
+                    "settings_file", "settings.json"))[0],
                 placeholder="Enter settings file name",
                 style=self.input_style()),
             html.Button(
@@ -437,6 +438,9 @@ class LunchHuntApp:
                     food.strip() for food in favorite_foods.split(";")
                 ] if favorite_foods else []
 
+                settings_file = settings_file + self.file_type \
+                    if not settings_file.endswith('.json') else settings_file
+
                 settings_data = {
                     "scraper_settings": {
                         "favorite_foods": favorite_foods,
@@ -463,7 +467,7 @@ class LunchHuntApp:
                 # Save to a JSON file
                 os.makedirs(self.settings_dir, exist_ok=True)
                 filepath = os.path.join(
-                    self.settings_dir, f"{settings_file}{self.file_type}"
+                    self.settings_dir, f"{settings_file}"
                 )
                 with open(filepath, 'w') as file:
                     json.dump(settings_data, file, indent=4)
@@ -615,15 +619,15 @@ class LunchHuntApp:
             ],
             [Input("save-settings", "n_clicks")]
         )
-
-        def update_dropdown_options(
+        def update_profiles_dropdown_options(
                 n_clicks: int
         ) -> Tuple[List[Dict[str, str]], List[Dict[str, str]]]:
 
             profiles = self.get_existing_profiles()
             options = [
                 {"label": item.split('.')[0], "value": item}
-                for item in profiles]
+                for item in profiles
+            ]
             return options, options
 
     @staticmethod
