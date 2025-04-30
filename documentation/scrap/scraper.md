@@ -99,20 +99,7 @@ matches = scraper.find_matches(["Eierkuchen", "Milchreis"])
 
 ### Hidden/Protected Methods
 
-#### `_default_mensa_dict() -> Dict[str, Tuple[str, str]]`
-
-Provides a default mapping of Mensa codes to locations and URL identifiers.
-
-- **Return Type**: Dict[str, Tuple[str, str]]
-- **Description**: Returns a dictionary mapping Mensa codes to (location, URL slug).
-- **Parameters**: None
-- **Example Usage**:
-
-```python
-default_mensa_dict = MensaScraper._default_mensa_dict()
-```
-
-#### `_build_mensa_url(mensa: str, location: str) -> str`
+#### `__build_mensa_url(mensa: str, location: str) -> str`
 
 Constructs the Mensa URL based on the identifier.
 
@@ -121,13 +108,8 @@ Constructs the Mensa URL based on the identifier.
 - **Parameters**:
   - `mensa` (str): Mensa code.
   - `location` (str): Location name.
-- **Example Usage**:
 
-```python
-url = scraper._build_mensa_url("EAP", "jena")
-```
-
-#### `_get_soup(url: str) -> Optional[BeautifulSoup]`
+#### `__get_soup(url: str) -> Optional[BeautifulSoup]`
 
 Fetches and parses the HTML content of a given URL.
 
@@ -135,13 +117,8 @@ Fetches and parses the HTML content of a given URL.
 - **Description**: Fetches the HTML content of a given URL and returns a BeautifulSoup object. If the request fails, an error message is logged, and `None` is returned.
 - **Parameters**:
   - `url` (str): Target URL.
-- **Example Usage**:
 
-```python
-soup = scraper._get_soup("https://www.stw-thueringen.de/mensen/jena/mensa-ernst-abbe-platz.html")
-```
-
-#### `_get_meal_categories(soup: BeautifulSoup) -> Tuple[Optional[List[BeautifulSoup]], Optional[List[str]]]`
+#### `__get_meal_categories(soup: BeautifulSoup) -> Tuple[Optional[List[BeautifulSoup]], Optional[List[str]]]`
 
 Extracts menu sections and corresponding category names.
 
@@ -149,13 +126,8 @@ Extracts menu sections and corresponding category names.
 - **Description**: Extracts menu sections and corresponding category names from the parsed BeautifulSoup object of the Mensa page. If no valid menu sections are found, `(None, None)` is returned.
 - **Parameters**:
   - `soup` (BeautifulSoup): Parsed BeautifulSoup object of the Mensa page.
-- **Example Usage**:
 
-```python
-sections, category_names = scraper._get_meal_categories(soup)
-```
-
-#### `_get_menu_by_category(menu_sections: Optional[List[BeautifulSoup]], menu_category_names: Optional[List[str]]) -> Optional[Dict[str, List[str]]]`
+#### `__get_menu_by_category(menu_sections: Optional[List[BeautifulSoup]], menu_category_names: Optional[List[str]]) -> Optional[Dict[str, List[str]]]`
 
 Extracts dishes categorized by meal type.
 
@@ -164,13 +136,8 @@ Extracts dishes categorized by meal type.
 - **Parameters**:
   - `menu_sections` (Optional[List[BeautifulSoup]]): List of meal sections from the website.
   - `menu_category_names` (Optional[List[str]]): List of category names.
-- **Example Usage**:
 
-```python
-dishes_by_category = scraper._get_menu_by_category(sections, category_names)
-```
-
-#### `_modify_mensa_name(mensa_name: str) -> str`
+#### `__modify_mensa_name(mensa_name: str) -> str`
 
 Formats the Mensa name properly.
 
@@ -178,25 +145,3 @@ Formats the Mensa name properly.
 - **Description**: Formats the Mensa name properly by replacing hyphens with spaces and capitalizing the first letter of each word.
 - **Parameters**:
   - `mensa_name` (str): Raw Mensa name.
-- **Example Usage**:
-
-```python
-cleaned_mensa_name = scraper._modify_mensa_name("mensa-ernst-abbe-platz")
-```
-
-## Additional Documentation Elements
-
-### Attributes
-
-- `dishes_by_category` (Optional[Dict[str, List[str]]]): Dictionary of categorized dishes from the last scraped menu.
-- `mensa_name` (Optional[str]): Name of the last scraped Mensa.
-- `location` (Optional[str]): Location of the last scraped Mensa.
-- `full_url` (Optional[str]): Full URL of the last scraped Mensa page.
-- `logger` (logging.Logger): Logger instance for logging messages.
-
-### Notes or Warnings
-
-- This class uses the `requests` and `beautifulsoup4` libraries for web scraping. Make sure these libraries are installed in your environment.
-- The web scraping functionality relies on the structure of the target website. If the website structure changes, the scraping logic may need to be updated.
-- The `find_matches` method is case-insensitive.
-- The `scrape_menu_by_category` method updates the `dishes_by_category`, `mensa_name`, `location`, and `full_url` attributes of the class instance.
