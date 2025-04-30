@@ -1,10 +1,10 @@
 import logging
+from typing import Optional, Union
+
 import requests
 from bs4 import BeautifulSoup
-from typing import Union, List, Dict, Optional, Tuple
 
 from lunchhunt.utils import default_mensa_dict
-
 
 # Configure logging
 logging.basicConfig(
@@ -20,9 +20,9 @@ class MensaScraper:
 
     def __init__(
         self,
-        menu_categories: Optional[Union[List[str], str]] = None,
+        menu_categories: Optional[Union[list[str], str]] = None,
         base_url: Optional[str] = None,
-        mensa_dict: Optional[Dict[str, Tuple[str, str]]] = None
+        mensa_dict: Optional[dict[str, tuple[str, str]]] = None
     ):
         """
         Initializes the MensaScraper with a base URL and Mensa mappings.
@@ -39,7 +39,7 @@ class MensaScraper:
         self.base_url = base_url or "https://www.stw-thueringen.de/mensen"
         self.mensa_dict = mensa_dict or default_mensa_dict()
 
-        self.dishes_by_category: Optional[Dict[str, List[str]]] = None
+        self.dishes_by_category: Optional[dict[str, list[str]]] = None
         self.mensa_name: Optional[str] = None
         self.location: Optional[str] = None
         self.full_url: Optional[str] = None
@@ -86,7 +86,7 @@ class MensaScraper:
     @staticmethod
     def __get_meal_categories(
             soup: BeautifulSoup
-    ) -> Tuple[Optional[List[BeautifulSoup]], Optional[List[str]]]:
+    ) -> tuple[Optional[list[BeautifulSoup]], Optional[list[str]]]:
         """
         Extracts menu sections and corresponding category names.
 
@@ -107,9 +107,9 @@ class MensaScraper:
 
     def __get_menu_by_category(
         self,
-        menu_sections: Optional[List[BeautifulSoup]],
-        menu_category_names: Optional[List[str]]
-    ) -> Optional[Dict[str, List[str]]]:
+        menu_sections: Optional[list[BeautifulSoup]],
+        menu_category_names: Optional[list[str]]
+    ) -> Optional[dict[str, list[str]]]:
         """
         Extracts dishes categorized by meal type.
 
@@ -135,7 +135,7 @@ class MensaScraper:
     def scrape_menu_by_category(
             self,
             mensa: str
-    ) -> Optional[Dict[str, List[str]]]:
+    ) -> Optional[dict[str, list[str]]]:
         """
         Scrapes the categorized menu for a given Mensa.
 
@@ -176,9 +176,9 @@ class MensaScraper:
 
     def find_matches(
             self,
-            keywords: Union[List[str], str],
-            dishes: Optional[Union[List[str], Dict[str, List[str]]]] = None
-    ) -> Optional[Union[List[str], Dict[str, List[str]]]]:
+            keywords: Union[list[str], str],
+            dishes: Optional[Union[list[str], dict[str, list[str]]]] = None
+    ) -> Optional[Union[list[str], dict[str, list[str]]]]:
         """
         Finds menu items that contain specified keywords.
 
