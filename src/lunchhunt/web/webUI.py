@@ -508,7 +508,7 @@ class LunchHuntApp:
                         else:
                             return f"Profile '{profile}' does not exist."
                     except Exception as e:
-                        return f"Error deleting '{profile}': {str(e)}"
+                        return f"Error deleting '{profile}': {e!s}"
                 return f"Successfully deleted {len(selected_profiles)} profile(s)."
             return ""
 
@@ -543,7 +543,7 @@ class LunchHuntApp:
 
                     return f"Successfully deleted {len(selected_jobs)} cron job(s)."
                 except subprocess.CalledProcessError as e:
-                    return f"Error modifying crontab: {str(e)}"
+                    return f"Error modifying crontab: {e!s}"
             return ""
 
         @self.app.callback(
