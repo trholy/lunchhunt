@@ -27,8 +27,8 @@ class LunchHuntApp:
             __name__,
             assets_folder='/home/lunchhunt/app/assets/'
         )
-        self.setup_layout()
-        self.setup_callbacks()
+        self.__setup_layout()
+        self.__setup_callbacks()
 
     @staticmethod
     def _default_settings_dict() -> Dict[str, Any]:
@@ -53,8 +53,7 @@ class LunchHuntApp:
             "settings_file": "settings.json"
         }
 
-
-    def setup_layout(self) -> None:
+    def __setup_layout(self) -> None:
         self.app.layout = html.Div([
             html.Div([
                 html.H1(
@@ -64,15 +63,15 @@ class LunchHuntApp:
                         "color": "#fff",
                         "text-align": "center"
                     }),
-                self.load_profiles_section(),
-                self.favorite_foods_section(),
-                self.menu_categories_section(),
-                self.mensen_dropdown_section(),
-                self.timer_settings_section(),
-                self.gotify_settings_section(),
-                self.save_settings_section(),
-                self.delete_profiles_section(),
-                self.delete_cronjobs_section(),
+                self.__load_profiles_section(),
+                self.__favorite_foods_section(),
+                self.__menu_categories_section(),
+                self.__mensen_dropdown_section(),
+                self.__timer_settings_section(),
+                self.__gotify_settings_section(),
+                self.__save_settings_section(),
+                self.__delete_profiles_section(),
+                self.__delete_cronjobs_section(),
                 html.Div(
                     id="save-output",
                     style={
@@ -89,47 +88,47 @@ class LunchHuntApp:
                     "boxShadow": "0 4px 8px rgba(0, 0, 0, 0.1)"
                 })])
 
-    def load_profiles_section(self) -> html.Div:
+    def __load_profiles_section(self) -> html.Div:
         return html.Div([
             html.H2(
                 "Load Profiles",
-                style=self.headline_H2_style()),
+                style=self.__headline_H2_style()),
             dcc.Dropdown(
                 id="load-profiles-dropdown",
                 options=[],
                 placeholder="Select a profile to load",
-                style=self.dropdown_style()),
+                style=self.__dropdown_style()),
             html.Button(
                 "Load Profile",
                 id="load-profiles-button",
                 n_clicks=0,
-                style=self.button_style("#007BFF")),
+                style=self.__button_style("#007BFF")),
             html.Div(
                 id="load-output",
                 style={
                     "margin": "10px auto",
                     "text-align": "center",
                     "color": "#fff"
-                })], style=self.section_style())
+                })], style=self.__section_style())
 
-    def favorite_foods_section(self) -> html.Div:
+    def __favorite_foods_section(self) -> html.Div:
         return html.Div([
             html.H2(
                 "Favorite Foods",
-                style=self.headline_H2_style()),
+                style=self.__headline_H2_style()),
             dcc.Input(
                 id="favorite-foods",
                 type="text",
                 value=self.default_settings.get("favorite_food", None),
                 placeholder="Enter favorite foods and separate by ';'",
-                style=self.input_style())],
-            style=self.section_style())
+                style=self.__input_style())],
+            style=self.__section_style())
 
-    def menu_categories_section(self) -> html.Div:
+    def __menu_categories_section(self) -> html.Div:
         return html.Div([
             html.H2(
                 "Menu Categories",
-                style=self.headline_H2_style()),
+                style=self.__headline_H2_style()),
             dcc.Dropdown(
                 id="menu-categories-dropdown",
                 options=[
@@ -140,7 +139,7 @@ class LunchHuntApp:
                 ],
                 value=self.default_settings.get("menu_category", "Mittagessen"),
                 multi=True,
-                style=self.dropdown_style()),
+                style=self.__dropdown_style()),
             html.Label(
                 "Pick-up Offset: ",
                 title="This is the minimum amount of time before closing time"
@@ -149,60 +148,60 @@ class LunchHuntApp:
                       "\nLunch service: 11:00-14:00"
                       "\nSnack in between: 15:00-16:30"
                       "\nDinner canteen 17:30-19:30",
-                style=self.label_style()),
+                style=self.__label_style()),
             dcc.Input(
                 id="offset-input",
                 type="number",
                 min=10, max=240, step=10,
                 value=self.default_settings.get("offset", 30),
-                style=self.input_style())],
-            style=self.section_style())
+                style=self.__input_style())],
+            style=self.__section_style())
 
-    def mensen_dropdown_section(self) -> html.Div:
+    def __mensen_dropdown_section(self) -> html.Div:
         return html.Div([
             html.H2(
                 "Mensen",
-                style=self.headline_H2_style()),
+                style=self.__headline_H2_style()),
             dcc.Dropdown(
                 id="mensen-dropdown",
                 options=[
                     {'label': f"{city} - {name}", 'value': code}
-                    for code, city, name in self.modify_mensa_name()
+                    for code, city, name in self.__modify_mensa_name()
                 ],
                 value=self.default_settings.get("mensa", "EAP"),
                 multi=True,
-                style=self.dropdown_style())],
-            style=self.section_style())
+                style=self.__dropdown_style())],
+            style=self.__section_style())
 
-    def timer_settings_section(self) -> html.Div:
+    def __timer_settings_section(self) -> html.Div:
         return html.Div([
             html.H2(
                 "Timer",
-                style=self.headline_H2_style()),
+                style=self.__headline_H2_style()),
         html.Div([
             html.Label(
                 "Hour (24h): ",
-                style=self.label_style()),
+                style=self.__label_style()),
             dcc.Input(
                 id="hour-input",
                 type="number",
                 min=0, max=24, step=1,
                 value=self.default_settings.get("hour", 9),
-                style=self.input_style())]),
+                style=self.__input_style())]),
         html.Div([
             html.Label(
                 "Minute: ",
-                style=self.label_style()),
+                style=self.__label_style()),
             dcc.Input(
                 id="minute-input",
                 type="number",
                 min=0, max=59, step=1,
                 value=self.default_settings.get("minute", 0),
-                style=self.input_style())]),
+                style=self.__input_style())]),
         html.Div([
             html.Label(
                 "Alarm Days: ",
-                style=self.label_style()),
+                style=self.__label_style()),
             dcc.Checklist(
                 id="day-checkbox",
                 options=[
@@ -218,43 +217,43 @@ class LunchHuntApp:
                     ]),
                 inline=True,
                 inputStyle={"marginRight": "5px", "marginTop": "10px"})])],
-            style=self.section_style())
+            style=self.__section_style())
 
-    def gotify_settings_section(self) -> html.Div:
+    def __gotify_settings_section(self) -> html.Div:
         return html.Div([
             html.H2(
                 "Gotify",
-                style=self.headline_H2_style()),
+                style=self.__headline_H2_style()),
             html.Div([
                 html.Label(
                     "Server: ",
-                    style=self.label_style()),
+                    style=self.__label_style()),
             dcc.Input(
                 id="server-url",
                 type="text",
                 value=self.default_settings.get("server_url", None),
                 placeholder="Enter server URL",
-                style=self.input_style())]),
+                style=self.__input_style())]),
             html.Div([
                 html.Label(
                     "Token: ",
-                    style=self.label_style()),
+                    style=self.__label_style()),
             dcc.Input(
                 id="token",
                 type="text",
                 value=self.default_settings.get("token", None),
                 placeholder="Enter token",
-                style=self.input_style())]),
+                style=self.__input_style())]),
             html.Div([
                 html.Label(
                     "Priority (0-10): ",
-                    style=self.label_style()),
+                    style=self.__label_style()),
             dcc.Input(
                 id="priority-input",
                 type="number",
                 min=0, max=10, step=1,
                 value=self.default_settings.get("priority", 5),
-                style=self.input_style())]),
+                style=self.__input_style())]),
         dcc.RadioItems(
             id="secure-switch",
             options=[
@@ -273,32 +272,32 @@ class LunchHuntApp:
                      "margin": "10px auto",
                      "text-align": "center", "color": "#fff"
                  })],
-            style=self.section_style())
+            style=self.__section_style())
 
-    def save_settings_section(self) -> html.Div:
+    def __save_settings_section(self) -> html.Div:
         return html.Div([
             html.H2(
                 "Save",
-                style=self.headline_H2_style()),
+                style=self.__headline_H2_style()),
             dcc.Input(
                 id="settings-file",
                 type="text",
                 value=os.path.splitext(self.default_settings.get(
                     "settings_file", "settings.json"))[0],
                 placeholder="Enter settings file name",
-                style=self.input_style()),
+                style=self.__input_style()),
             html.Button(
                 "Save Settings",
                 id="save-settings",
                 n_clicks=0,
-                style=self.button_style("#007BFF"))],
-            style=self.section_style())
+                style=self.__button_style("#007BFF"))],
+            style=self.__section_style())
 
-    def delete_profiles_section(self) -> html.Div:
+    def __delete_profiles_section(self) -> html.Div:
         return html.Div([
             html.H2(
                 "Delete Profiles",
-                style=self.headline_H2_style()),
+                style=self.__headline_H2_style()),
             dcc.Dropdown(
                 id="delete-profiles-dropdown",
                 options=[
@@ -306,12 +305,12 @@ class LunchHuntApp:
                     for profile in self.get_existing_profiles()],
                 multi=True,
                 placeholder="Select profiles to delete",
-                style=self.dropdown_style()),
+                style=self.__dropdown_style()),
             html.Button(
                 "Delete Selected Profiles",
                 id="delete-profiles-button",
                 n_clicks=0,
-                style=self.button_style("#FF4136")),
+                style=self.__button_style("#FF4136")),
             html.Div(
                 id="delete-output",
                 style={
@@ -319,24 +318,24 @@ class LunchHuntApp:
                     "text-align": "center",
                     "color": "#fff"
                 })],
-            style=self.section_style())
+            style=self.__section_style())
 
-    def delete_cronjobs_section(self) -> html.Div:
+    def __delete_cronjobs_section(self) -> html.Div:
         return html.Div([
-            html.H2("Delete Cron Jobs", style=self.headline_H2_style()),
+            html.H2("Delete Cron Jobs", style=self.__headline_H2_style()),
             dcc.Dropdown(
                 id="delete-cronjobs-dropdown",
                 options=[
                     {"label": job_name, "value": full_cronjob}
-                    for job_name, full_cronjob in self.get_existing_cronjobs()],
+                    for job_name, full_cronjob in self.__get_existing_cronjobs()],
                 multi=True,
                 placeholder="Select cron jobs to delete",
-                style=self.dropdown_style()),
+                style=self.__dropdown_style()),
             html.Button(
                 "Delete Selected Cron Jobs",
                 id="delete-cronjobs-button",
                 n_clicks=0,
-                style=self.button_style("#FF4136")),
+                style=self.__button_style("#FF4136")),
             html.Div(
                 id="delete-cron-output",
                 style={
@@ -344,14 +343,14 @@ class LunchHuntApp:
                     "text-align": "center",
                     "color": "#fff"
                 })],
-            style=self.section_style())
+            style=self.__section_style())
 
     @staticmethod
-    def headline_H2_style() -> Dict[str, str]:
+    def __headline_H2_style() -> Dict[str, str]:
         return {"margin": "10px 0", "color": "#fff"}
 
     @staticmethod
-    def label_style() -> Dict[str, str]:
+    def __label_style() -> Dict[str, str]:
         return {
             "marginRight": "10px",
             "marginTop": "5px",
@@ -361,7 +360,7 @@ class LunchHuntApp:
         }
 
     @staticmethod
-    def dropdown_style() -> Dict[str, str]:
+    def __dropdown_style() -> Dict[str, str]:
         return {
             "width": "100%",
             "padding": "10px",
@@ -372,7 +371,7 @@ class LunchHuntApp:
         }
 
     @staticmethod
-    def input_style() -> Dict[str, str]:
+    def __input_style() -> Dict[str, str]:
         return {
             "width": "100%",
             "padding": "5px",
@@ -383,7 +382,7 @@ class LunchHuntApp:
         }
 
     @staticmethod
-    def button_style(color: str) -> Dict[str, str]:
+    def __button_style(color: str) -> Dict[str, str]:
         return {
             "margin": "10px auto",
             "display": "block",
@@ -396,7 +395,7 @@ class LunchHuntApp:
         }
 
     @staticmethod
-    def section_style() -> Dict[str, str]:
+    def __section_style() -> Dict[str, str]:
         return {
             "border": "1px solid #555",
             "padding": "20px",
@@ -407,7 +406,7 @@ class LunchHuntApp:
             "backgroundColor": "#333"
         }
 
-    def setup_callbacks(self):
+    def __setup_callbacks(self):
         @self.app.callback(
             Output("save-output", "children"),
             [Input("save-settings", "n_clicks")],
@@ -426,7 +425,7 @@ class LunchHuntApp:
                 State("settings-file", "value")
             ]
         )
-        def save_settings(
+        def __save_settings(
                 n_clicks: int,
                 favorite_foods: List[str],
                 menu_categories: List[str],
@@ -463,7 +462,7 @@ class LunchHuntApp:
                         "offset": offset,
                         "hour": hour,
                         "minute": minute,
-                        "alarm_days": self.update_alarm_days(alarm_days),
+                        "alarm_days": self.__update_alarm_days(alarm_days),
                     },
                     "gotify_settings": {
                         "server_url": server_url,
@@ -495,7 +494,7 @@ class LunchHuntApp:
             [Input("delete-profiles-button", "n_clicks")],
             [State("delete-profiles-dropdown", "value")]
         )
-        def delete_profiles(
+        def __delete_profiles(
                 n_clicks: int,
                 selected_profiles: List[str]
         ) -> str:
@@ -518,7 +517,7 @@ class LunchHuntApp:
             [Input("delete-cronjobs-button", "n_clicks")],
             [State("delete-cronjobs-dropdown", "value")]
         )
-        def delete_selected_cronjobs(
+        def __delete_selected_cronjobs(
                 n_clicks: int,
                 selected_jobs: List[str]
         ) -> str:
@@ -566,7 +565,7 @@ class LunchHuntApp:
             [Input("load-profiles-button", "n_clicks")],
             [State("load-profiles-dropdown", "value")]
         )
-        def load_settings(
+        def __load_settings(
                 n_clicks: int,
                 profile: str
         ):
@@ -628,7 +627,7 @@ class LunchHuntApp:
                         "alarm_days": [
                             day for day, active in schedule_settings.get(
                                 "alarm_days",
-                                self.update_alarm_days(
+                                self.__update_alarm_days(
                                     self.default_settings.get("alarm_days"))
                             ).items() if active
                         ],
@@ -675,7 +674,7 @@ class LunchHuntApp:
             ],
             [Input("save-settings", "n_clicks")]
         )
-        def update_profiles_dropdown_options(
+        def __update_profiles_dropdown_options(
                 n_clicks: int
         ) -> Tuple[List[Dict[str, str]], List[Dict[str, str]]]:
 
@@ -690,10 +689,10 @@ class LunchHuntApp:
             Output("delete-cronjobs-dropdown", "options"),
             [Input("save-settings", "n_clicks")]
         )
-        def update_cronjobs_dropdown_options(
+        def __update_cronjobs_dropdown_options(
                 n_clicks: int
         ) -> List[Dict[str, str]]:
-            cronjobs = self.get_existing_cronjobs()
+            cronjobs = self.__get_existing_cronjobs()
 
             if not cronjobs:
                 return []
@@ -704,11 +703,12 @@ class LunchHuntApp:
             ]
 
     @staticmethod
-    def update_alarm_days(alarm_days) -> Dict[str, str]:
+    def __update_alarm_days(
+            alarm_days: list
+    ) -> Dict[str, str]:
         return {day: True for day in alarm_days} if alarm_days else {}
 
     def get_existing_profiles(self) -> List[str]:
-
         if not os.path.exists(self.settings_dir):
             return []
 
@@ -718,7 +718,7 @@ class LunchHuntApp:
         ]
 
     @staticmethod
-    def get_existing_cronjobs() -> List[tuple]:
+    def __get_existing_cronjobs() -> List[tuple]:
         try:
             result = subprocess.run(
                 ["crontab", "-l", "-u", "lunchhunt"],
@@ -752,7 +752,7 @@ class LunchHuntApp:
             logging.error("Error fetching cron jobs:", e)
             return []
 
-    def modify_mensa_name(self) -> List[Tuple[str, str, str]]:
+    def __modify_mensa_name(self) -> List[Tuple[str, str, str]]:
         return [
             (code, city.title(), name.replace("-", " ").title())
             for code, (city, name) in self.mensa_dict.items()
