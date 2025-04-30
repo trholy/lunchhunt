@@ -1,21 +1,21 @@
-from lunchhunt.utils import create_cronjob, default_mensa_dict
-
-from dash import Dash, dcc, html, no_update, Input, Output, State
-
-from typing import List, Dict, Tuple, Any
-import subprocess
-import logging
 import json
+import logging
 import os
 import re
+import subprocess
+from typing import Any
+
+from dash import Dash, Input, Output, State, dcc, html, no_update
+
+from lunchhunt.utils import create_cronjob, default_mensa_dict
 
 
 class LunchHuntApp:
     def __init__(
             self,
             settings_dir: str | None = None,
-            mensa_dict: Dict | None = None,
-            default_settings: Dict | None = None,
+            mensa_dict: dict | None = None,
+            default_settings: dict | None = None,
     ):
         self.settings_dir = settings_dir or "settings"
         self.file_type = ".json"
@@ -31,7 +31,7 @@ class LunchHuntApp:
         self.__setup_callbacks()
 
     @staticmethod
-    def _default_settings_dict() -> Dict[str, Any]:
+    def _default_settings_dict() -> dict[str, Any]:
         return {
             # Scraper Settings
             "favorite_food": None,
@@ -346,11 +346,11 @@ class LunchHuntApp:
             style=self.__section_style())
 
     @staticmethod
-    def __headline_H2_style() -> Dict[str, str]:
+    def __headline_H2_style() -> dict[str, str]:
         return {"margin": "10px 0", "color": "#fff"}
 
     @staticmethod
-    def __label_style() -> Dict[str, str]:
+    def __label_style() -> dict[str, str]:
         return {
             "marginRight": "10px",
             "marginTop": "5px",
@@ -360,7 +360,7 @@ class LunchHuntApp:
         }
 
     @staticmethod
-    def __dropdown_style() -> Dict[str, str]:
+    def __dropdown_style() -> dict[str, str]:
         return {
             "width": "100%",
             "padding": "10px",
@@ -371,7 +371,7 @@ class LunchHuntApp:
         }
 
     @staticmethod
-    def __input_style() -> Dict[str, str]:
+    def __input_style() -> dict[str, str]:
         return {
             "width": "100%",
             "padding": "5px",
@@ -382,7 +382,7 @@ class LunchHuntApp:
         }
 
     @staticmethod
-    def __button_style(color: str) -> Dict[str, str]:
+    def __button_style(color: str) -> dict[str, str]:
         return {
             "margin": "10px auto",
             "display": "block",
@@ -395,7 +395,7 @@ class LunchHuntApp:
         }
 
     @staticmethod
-    def __section_style() -> Dict[str, str]:
+    def __section_style() -> dict[str, str]:
         return {
             "border": "1px solid #555",
             "padding": "20px",
@@ -427,13 +427,13 @@ class LunchHuntApp:
         )
         def __save_settings(
                 n_clicks: int,
-                favorite_foods: List[str],
-                menu_categories: List[str],
+                favorite_foods: list[str],
+                menu_categories: list[str],
                 offset: int,
-                mensen: List[str],
+                mensen: list[str],
                 hour: int,
                 minute: int,
-                alarm_days: List[str],
+                alarm_days: list[str],
                 server_url: str,
                 token: str,
                 priority: int,
@@ -496,7 +496,7 @@ class LunchHuntApp:
         )
         def __delete_profiles(
                 n_clicks: int,
-                selected_profiles: List[str]
+                selected_profiles: list[str]
         ) -> str:
 
             if n_clicks > 0 and selected_profiles:
@@ -519,7 +519,7 @@ class LunchHuntApp:
         )
         def __delete_selected_cronjobs(
                 n_clicks: int,
-                selected_jobs: List[str]
+                selected_jobs: list[str]
         ) -> str:
             if n_clicks > 0 and selected_jobs:
                 try:
@@ -676,7 +676,7 @@ class LunchHuntApp:
         )
         def __update_profiles_dropdown_options(
                 n_clicks: int
-        ) -> Tuple[List[Dict[str, str]], List[Dict[str, str]]]:
+        ) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
 
             profiles = self.get_existing_profiles()
             options = [
@@ -691,7 +691,7 @@ class LunchHuntApp:
         )
         def __update_cronjobs_dropdown_options(
                 n_clicks: int
-        ) -> List[Dict[str, str]]:
+        ) -> list[dict[str, str]]:
             cronjobs = self.__get_existing_cronjobs()
 
             if not cronjobs:
@@ -705,10 +705,10 @@ class LunchHuntApp:
     @staticmethod
     def __update_alarm_days(
             alarm_days: list
-    ) -> Dict[str, str]:
+    ) -> dict[str, str]:
         return {day: True for day in alarm_days} if alarm_days else {}
 
-    def get_existing_profiles(self) -> List[str]:
+    def get_existing_profiles(self) -> list[str]:
         if not os.path.exists(self.settings_dir):
             return []
 
@@ -718,7 +718,7 @@ class LunchHuntApp:
         ]
 
     @staticmethod
-    def __get_existing_cronjobs() -> List[tuple]:
+    def __get_existing_cronjobs() -> list[tuple]:
         try:
             result = subprocess.run(
                 ["crontab", "-l", "-u", "lunchhunt"],
@@ -752,7 +752,7 @@ class LunchHuntApp:
             logging.error("Error fetching cron jobs:", e)
             return []
 
-    def __modify_mensa_name(self) -> List[Tuple[str, str, str]]:
+    def __modify_mensa_name(self) -> list[tuple[str, str, str]]:
         return [
             (code, city.title(), name.replace("-", " ").title())
             for code, (city, name) in self.mensa_dict.items()
