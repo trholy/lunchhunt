@@ -573,7 +573,7 @@ class LunchHuntApp:
             if n_clicks > 0 and profile:
                 filepath = os.path.join(self.settings_dir, profile)
                 try:
-                    with open(filepath, 'r') as file:
+                    with open(filepath) as file:
                         loaded_settings = json.load(file)
 
                     # Load sub-dictionaries

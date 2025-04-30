@@ -68,7 +68,7 @@ def load_settings(
     """
     logging.info("Loading settings from %s...", path)
     try:
-        with open(path, 'r', encoding='utf-8') as file:
+        with open(path, encoding='utf-8') as file:
             settings = json.load(file)
 
         scraper_settings = settings['scraper_settings']
