@@ -1,6 +1,7 @@
 import logging
 from typing import Optional, Union
 
+from urllib.parse import urlparse, urlunparse
 import requests
 
 # Configure logging
@@ -11,10 +12,6 @@ logging.basicConfig(
 
 
 class Notifier:
-    """
-    A notification sender for Gotify servers.
-    """
-
     def __init__(
             self,
             server_url: str,
@@ -30,8 +27,21 @@ class Notifier:
         :param priority: Default message priority level (default: 5).
         :param secure: Use HTTPS if True, otherwise HTTP (default: False).
         """
-        protocol = "https" if secure else "http"
-        self.server_url = f"{protocol}://{server_url}/message"
+        # Normalize URL
+        parsed = urlparse(server_url)
+
+        # If no scheme, treat entire input as netloc
+        if not parsed.scheme:
+            netloc = parsed.path
+        else:
+            netloc = parsed.netloc or parsed.path
+
+        # Override scheme based on secure flag
+        scheme = "https" if secure else "http"
+
+        # Rebuild full URL
+        self.server_url = urlunparse((scheme, netloc, '/message', '', '', ''))
+
         self.token = token
         self.priority = priority
 
