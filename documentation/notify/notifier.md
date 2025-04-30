@@ -58,7 +58,7 @@ notifier.send_notification(
 
 ### Hidden/Protected Methods
 
-#### _parse_message_input
+#### `__parse_message_input`
 
 Parses the input message, location, and website into a formatted string.
 
