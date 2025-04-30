@@ -1,4 +1,4 @@
-from lunchhunt.utils import create_cronjob
+from lunchhunt.utils import create_cronjob, default_mensa_dict
 
 from dash import Dash, dcc, html, no_update, Input, Output, State
 
@@ -21,7 +21,7 @@ class LunchHuntApp:
         self.file_type = ".json"
 
         self.default_settings = default_settings or self._default_settings_dict()
-        self.mensa_dict = mensa_dict or self._default_mensa_dict()
+        self.mensa_dict = mensa_dict or default_mensa_dict()
 
         self.app = Dash(
             __name__,
@@ -53,46 +53,6 @@ class LunchHuntApp:
             "settings_file": "settings.json"
         }
 
-    @staticmethod
-    def _default_mensa_dict() -> Dict[str, Tuple[str, str]]:
-        return {
-            # Erfurt
-            "MNS": ("erfurt", "mensa-nordhaeuser-strasse"),
-            "MAS": ("erfurt", "mensa-altonaer-strasse"),
-            "CH7": ("erfurt", "cafeteria-hoersaal-7"),
-            "GBX": ("erfurt", "glasbox"),
-            "CSL": ("erfurt", "cafeteria-schlueterstrasse"),
-            "CLS": ("erfurt", "cafeteria-leipziger-strasse"),
-            # Jena
-            "EAP": ("jena", "mensa-ernst-abbe-platz"),
-            "CZP": ("jena", "mensa-carl-zeiss-promenade"),
-            "PW": ("jena", "mensa-philosophenweg"),
-            "UHG": ("jena", "mensa-uni-hauptgebaeude"),
-            "MVRS": ("jena", "moritz-von-rohr-strasse"),
-            "CCZ": ("jena", "cafeteria-carl-zeiss-strasse-3"),
-            "CZR": ("jena", "cafeteria-zur-rosen"),
-            "CBIB": ("jena", "cafeteria-bibliothek"),
-            # Weimar
-            "MAP": ("weimar", "mensa-am-park"),
-            "CAH": ("weimar", "cafeteria-am-horn"),
-            "CMP": ("weimar", "cafeteria-mensa-am-park"),
-            # Ilmenau
-            "MEH": ("ilmenau", "mensa-ehrenberg"),
-            "CME": ("ilmenau", "cafeteria-mensa-ehrenberg"),
-            "CMI": ("ilmenau", "cafeteria-mini"),
-            "NANO": ("ilmenau", "nanoteria"),
-            "TWC": ("ilmenau", "tower-cafe"),
-            "CRB": ("ilmenau", "cafeteria-roentgenbau"),
-            # Schmalkalden
-            "MBH": ("schmalkalden", "mensa-blechhammer"),
-            "CMB": ("schmalkalden", "cafeteria-mensa-blechhammer"),
-            # Gera
-            "MWF": ("gera", "mensa-weg-der-freundschaft"),
-            # Eisenach
-            "MAW": ("eisenach", "mensa-am-wartenberg"),
-            # Nordhausen
-            "MWH": ("nordhausen", "mensa-weinberghof")
-        }
 
     def setup_layout(self) -> None:
         self.app.layout = html.Div([

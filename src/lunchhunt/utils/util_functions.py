@@ -1,9 +1,56 @@
+from typing import Union, Optional, Dict, Tuple
 from datetime import datetime, time, timedelta
-from typing import Union, Optional
 import subprocess
 import logging
 import json
 import sys
+
+
+def default_mensa_dict() -> Dict[str, Tuple[str, str]]:
+    """
+    Provides a default mapping of Mensa codes to locations
+     and URL identifiers.
+
+    :return: Dictionary mapping Mensa codes to (location, URL slug).
+    """
+    return {
+        # Erfurt
+        "MNS": ("erfurt", "mensa-nordhaeuser-strasse"),
+        "MAS": ("erfurt", "mensa-altonaer-strasse"),
+        "CH7": ("erfurt", "cafeteria-hoersaal-7"),
+        "GBX": ("erfurt", "glasbox"),
+        "CSL": ("erfurt", "cafeteria-schlueterstrasse"),
+        "CLS": ("erfurt", "cafeteria-leipziger-strasse"),
+        # Jena
+        "EAP": ("jena", "mensa-ernst-abbe-platz"),
+        "CZP": ("jena", "mensa-carl-zeiss-promenade"),
+        "PW": ("jena", "mensa-philosophenweg"),
+        "UHG": ("jena", "mensa-uni-hauptgebaeude"),
+        "MVRS": ("jena", "moritz-von-rohr-strasse"),
+        "CCZ": ("jena", "cafeteria-carl-zeiss-strasse-3"),
+        "CZR": ("jena", "cafeteria-zur-rosen"),
+        "CBIB": ("jena", "cafeteria-bibliothek"),
+        # Weimar
+        "MAP": ("weimar", "mensa-am-park"),
+        "CAH": ("weimar", "cafeteria-am-horn"),
+        "CMP": ("weimar", "cafeteria-mensa-am-park"),
+        # Ilmenau
+        "MEH": ("ilmenau", "mensa-ehrenberg"),
+        "CME": ("ilmenau", "cafeteria-mensa-ehrenberg"),
+        "CMI": ("ilmenau", "cafeteria-mini"),
+        "NANO": ("ilmenau", "nanoteria"),
+        "TWC": ("ilmenau", "tower-cafe"),
+        "CRB": ("ilmenau", "cafeteria-roentgenbau"),
+        # Schmalkalden
+        "MBH": ("schmalkalden", "mensa-blechhammer"),
+        "CMB": ("schmalkalden", "cafeteria-mensa-blechhammer"),
+        # Gera
+        "MWF": ("gera", "mensa-weg-der-freundschaft"),
+        # Eisenach
+        "MAW": ("eisenach", "mensa-am-wartenberg"),
+        # Nordhausen
+        "MWH": ("nordhausen", "mensa-weinberghof"),
+    }
 
 
 def load_settings(
