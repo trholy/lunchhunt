@@ -1,0 +1,30 @@
+{
+    "scraper_settings": {
+        "favorite_foods": [],
+        "menu_categories": [
+            "Mittagessen"
+        ],
+        "mensen": [
+            "EAP"
+        ]
+    },
+    "schedule_settings": {
+        "offset": 30,
+        "hour": 9,
+        "minute": 0,
+        "alarm_days": {
+            "monday": true,
+            "tuesday": true,
+            "wednesday": true,
+            "thursday": true,
+            "friday": true
+        }
+    },
+    "gotify_settings": {
+        "server_url": null,
+        "token": null,
+        "priority": 5,
+        "secure": false
+    },
+    "settings_file": "settings.json"
+}
