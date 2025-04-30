@@ -3,11 +3,11 @@ __author__ = "Thomas R. Holy"
 
 from .notify import Notifier
 from .scrap import MensaScraper
-from .utils import update_menu_categories, load_settings
+from .utils import load_settings, update_menu_categories
 
 __all__ = [
-    "Notifier",
     "MensaScraper",
-    "update_menu_categories",
-    "load_settings"
+    "Notifier",
+    "load_settings",
+    "update_menu_categories"
 ]
