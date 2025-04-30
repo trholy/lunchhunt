@@ -1,12 +1,12 @@
-from typing import Union, Optional, Dict, Tuple
-from datetime import datetime, time, timedelta
-import subprocess
-import logging
 import json
+import logging
+import subprocess
 import sys
+from datetime import datetime, time, timedelta
+from typing import Optional, Union
 
 
-def default_mensa_dict() -> Dict[str, Tuple[str, str]]:
+def default_mensa_dict() -> dict[str, tuple[str, str]]:
     """
     Provides a default mapping of Mensa codes to locations
      and URL identifiers.
