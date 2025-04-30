@@ -65,7 +65,7 @@ class MensaScraper:
         _, mensa_name = self.mensa_dict[mensa]
         return f"{self.base_url}/{location}/{mensa_name}.html"
 
-    def _get_soup(
+    def __get_soup(
             self,
             url: str
     ) -> Optional[BeautifulSoup]:
@@ -84,7 +84,7 @@ class MensaScraper:
             return None
 
     @staticmethod
-    def _get_meal_categories(
+    def __get_meal_categories(
             soup: BeautifulSoup
     ) -> Tuple[Optional[List[BeautifulSoup]], Optional[List[str]]]:
         """
@@ -105,7 +105,7 @@ class MensaScraper:
         return (sections, category_names) if sections and category_names\
             else (None, None)
 
-    def _get_menu_by_category(
+    def __get_menu_by_category(
         self,
         menu_sections: Optional[List[BeautifulSoup]],
         menu_category_names: Optional[List[str]]
@@ -146,22 +146,22 @@ class MensaScraper:
             raise ValueError(f"Unknown Mensa code: {mensa}")
 
         location, _ = self.mensa_dict[mensa]
-        self.full_url = self._build_mensa_url(mensa, location)
-        self.mensa_name = self._modify_mensa_name(mensa)
+        self.full_url = self.__build_mensa_url(mensa, location)
+        self.mensa_name = self.__modify_mensa_name(mensa)
         self.location = location
 
-        soup = self._get_soup(self.full_url)
+        soup = self.__get_soup(self.full_url)
         if not soup:
             return None
 
-        menu_sections, category_names = self._get_meal_categories(soup)
-        self.dishes_by_category = self._get_menu_by_category(
+        menu_sections, category_names = self.__get_meal_categories(soup)
+        self.dishes_by_category = self.__get_menu_by_category(
             menu_sections, category_names
         )
 
         return self.dishes_by_category
 
-    def _modify_mensa_name(
+    def __modify_mensa_name(
             self,
             mensa_name: str
     ) -> str:
