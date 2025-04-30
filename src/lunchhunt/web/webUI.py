@@ -660,9 +660,7 @@ class LunchHuntApp:
                             ))[0]
                     })
 
-                    return tuple(self.default_settings.values()) + (
-                        f"Settings loaded from {profile}",
-                    )
+                    return (*tuple(self.default_settings.values()), f"Settings loaded from {profile}")
                 except Exception as e:
                     return [no_update] * 12 + [f"Error loading settings: {e}"]
             return [no_update] * 12 + [no_update]
