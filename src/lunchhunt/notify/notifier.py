@@ -2,8 +2,12 @@ import logging
 import requests
 from typing import List, Dict, Union, Optional
 
+
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(message)s'
+)
 
 
 class Notifier:

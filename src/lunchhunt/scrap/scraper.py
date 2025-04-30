@@ -7,7 +7,10 @@ from lunchhunt.utils import default_mensa_dict
 
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(message)s'
+)
 
 
 class MensaScraper:
