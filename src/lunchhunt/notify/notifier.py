@@ -56,7 +56,7 @@ class Notifier:
         :param priority: Message priority
          (optional, default: class default priority).
         """
-        full_message = self._parse_message_input(location, website, message)
+        full_message = self.__parse_message_input(location, website, message)
 
         if not full_message.strip():
             self.logger.warning(
@@ -79,7 +79,7 @@ class Notifier:
         except requests.RequestException as e:
             self.logger.error(f"Failed to send notification: {e}")
 
-    def _parse_message_input(
+    def __parse_message_input(
             self,
             location: Optional[str],
             website: Optional[str],
@@ -98,7 +98,7 @@ class Notifier:
             msg_input = [msg_input]  # Convert single message to list
 
         if isinstance(msg_input, dict):
-            return self._format_dict_message(location, website, msg_input)
+            return self.__format_dict_message(location, website, msg_input)
 
         if isinstance(msg_input, list):
             msg_list = msg_input.copy()
@@ -113,7 +113,7 @@ class Notifier:
         return ""
 
     @staticmethod
-    def _format_dict_message(
+    def __format_dict_message(
             location: Optional[str],
             website: Optional[str],
             msg_dict: Dict[str, List[str]]
