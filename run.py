@@ -36,61 +36,63 @@ if __name__ == "__main__":
         timetable=None,
         offset=schedule_settings['offset']
     )
-
-    # Initialize scraper
-    scraper = MensaScraper(
-        menu_categories=menu_categories,
-        base_url=None,
-        mensa_dict=None
-    )
-    logging.info("Initialized MensaScraper.")
-
-    # Initialize Notifier
-    notifier = Notifier(
-        server_url=gotify_settings['server_url'],
-        token=gotify_settings['token'],
-        priority=gotify_settings['priority'],
-        secure=gotify_settings['secure']
-    )
-    logging.info("Initialized Notifier.")
-
-    for mensa in scraper_settings['mensen']:
-        logging.info(f"\nGet dishes of {mensa} by category...")
-        # Get dishes by category
-        dishes_by_category = scraper.scrape_menu_by_category(
-            mensa=mensa
+    if menu_categories is not None:
+        # Initialize scraper
+        scraper = MensaScraper(
+            menu_categories=menu_categories,
+            base_url=None,
+            mensa_dict=None
         )
+        logging.info("Initialized MensaScraper.")
 
-        if dishes_by_category:
-            for key in dishes_by_category:
-                logging.info(f"\nDishes for {key}:")
-                for value in dishes_by_category[key]:
-                    logging.info(value)
+        # Initialize Notifier
+        notifier = Notifier(
+            server_url=gotify_settings['server_url'],
+            token=gotify_settings['token'],
+            priority=gotify_settings['priority'],
+            secure=gotify_settings['secure']
+        )
+        logging.info("Initialized Notifier.")
 
-            if scraper_settings['favorite_foods']:
-                # Find matches with favourite food
-                logging.info("Find matches with favourite food...")
-                matches = scraper.find_matches(
-                    # dishes=dishes_by_category,  # Optional
-                    keywords=scraper_settings['favorite_foods']
-                )
+        for mensa in scraper_settings['mensen']:
+            logging.info(f"\nGet dishes of {mensa} by category...")
+            # Get dishes by category
+            dishes_by_category = scraper.scrape_menu_by_category(
+                mensa=mensa
+            )
 
-                if matches:
-                    logging.info(f"Matched dishes: {matches}\n")
+            if dishes_by_category:
+                for key in dishes_by_category:
+                    logging.info(f"\nDishes for {key}:")
+                    for value in dishes_by_category[key]:
+                        logging.info(value)
+
+                if scraper_settings['favorite_foods']:
+                    # Find matches with favourite food
+                    logging.info("Find matches with favourite food...")
+                    matches = scraper.find_matches(
+                        # dishes=dishes_by_category,  # Optional
+                        keywords=scraper_settings['favorite_foods']
+                    )
+
+                    if matches:
+                        logging.info(f"Matched dishes: {matches}\n")
+                        notifier.send_notification(
+                            message=matches,
+                            website=scraper.full_url,
+                            location=scraper.mensa_name
+                        )
+                    else:
+                        logging.info("No matches found.")
+                else:
                     notifier.send_notification(
-                        message=matches,
+                        message=dishes_by_category,
                         website=scraper.full_url,
                         location=scraper.mensa_name
                     )
-                else:
-                    logging.info("No matches found.")
             else:
-                notifier.send_notification(
-                    message=dishes_by_category,
-                    website=scraper.full_url,
-                    location=scraper.mensa_name
-                )
-        else:
-            logging.info("No dishes found.")
+                logging.info("No dishes found.")
+    else:
+        logging.info("No dishes found. It is to late?")
 
     logging.info("Finished execution of LunchHunt.")
