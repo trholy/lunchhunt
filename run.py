@@ -19,11 +19,12 @@ logging.basicConfig(
 if __name__ == "__main__":
     logging.info("Starting execution of LunchHunt.")
 
-    if len(sys.argv) > len('.json') + 1:
+    if len(sys.argv[1]) > len('.json') + 1:
         settings_file = sys.argv[1]
+        logging.info(f"Using settings file {sys.argv[1]}.")
     else:
         settings_file = 'settings.json'
-    logging.info(f"Using settings file: {settings_file}")
+        logging.info(f"Using default settings file: {settings_file}")
 
     # Get settings for scraper and notifier
     scraper_settings, schedule_settings, gotify_settings = load_settings(
