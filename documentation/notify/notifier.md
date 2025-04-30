@@ -72,16 +72,17 @@ Parses the input message, location, and website into a formatted string.
 
 str: The formatted message string.
 
-## Additional Documentation Elements
 
-- Attributes: The `Notifier` class has the following attributes:
-  - `server_url` (str): The URL of the Gotify server.
-  - `token` (str): Authentication token for the server.
-  - `priority` (int): Default message priority level.
-  - `logger` (logging.Logger): Logger instance for the class.
+#### `__format_dict_message`
 
-- Notes or Warnings:
-  - The `send_notification` method will log a warning and skip sending the notification if the message content is empty or invalid.
-  - The `send_notification` method will log an error if it fails to send the notification due to a network error or server issue.
+Formats a dictionary of messages into a structured string.
 
-- Dependencies: The `Notifier` class depends on the `requests` library for sending HTTP requests to the Gotify server.
+##### Parameters
+
+- `location` (Optional[str]): Mensa location (optional). If provided, it will be included in the category header.
+- `website` (Optional[str]): Mensa website (optional). If provided, it will be appended to the end of the formatted message.
+- `msg_dict` (dict[str, list[str]]): Dictionary where keys are categories and values are lists of messages. Each category will be formatted into a header followed by its corresponding list of messages.
+
+##### Returns
+
+- `str`: Formatted string representation of the dictionary. The string includes category headers, messages, and optionally the website.
