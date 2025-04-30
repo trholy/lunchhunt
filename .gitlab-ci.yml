@@ -33,6 +33,8 @@ pages:
     - cp -r img/. docs/img
     - cp -r documentation/notify/. docs/notify
     - cp -r documentation/scrap/. docs/scrap
+    - cp -r documentation/utils/. docs/utils
+    - cp -r documentation/web/. docs/web
     - cp -r documentation/examples/. docs/examples
     - cp README.md docs/
     - mkdocs build

@@ -8,6 +8,10 @@ nav:
       - MensaScraper: scrap/scraper.md
   - Notify Module:
       - Notifier: notify/notifier.md
+  - Web Module:
+      - LunchHuntApp: web/webUI.md
+  - Utils Module:
+      - Util Functions: utils/util_functions.md
   - Example Usage:
       - Mensa Dishes Notification: examples/example_1.md
       - Favorite Foods Notification: examples/example_2.md
