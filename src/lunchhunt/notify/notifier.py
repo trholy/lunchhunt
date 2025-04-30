@@ -1,7 +1,7 @@
 import logging
-import requests
-from typing import List, Dict, Union, Optional
+from typing import Optional, Union
 
+import requests
 
 # Configure logging
 logging.basicConfig(
@@ -39,7 +39,7 @@ class Notifier:
 
     def send_notification(
             self,
-            message: Union[List[str], str, Dict[str, List[str]]],
+            message: Union[list[str], str, dict[str, list[str]]],
             website: Optional[str] = None,
             location: Optional[str] = None,
             title: Optional[str] = "‼️LunchHunt‼️",
@@ -83,7 +83,7 @@ class Notifier:
             self,
             location: Optional[str],
             website: Optional[str],
-            msg_input: Union[List[str], str, Dict[str, List[str]]],
+            msg_input: Union[list[str], str, dict[str, list[str]]],
     ) -> str:
         """
         Parses the input message and ensures proper formatting
@@ -116,7 +116,7 @@ class Notifier:
     def __format_dict_message(
             location: Optional[str],
             website: Optional[str],
-            msg_dict: Dict[str, List[str]]
+            msg_dict: dict[str, list[str]]
     ) -> str:
         """
         Formats a dictionary of messages into a structured string.
