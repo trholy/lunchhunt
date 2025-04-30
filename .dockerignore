@@ -37,8 +37,12 @@ dist/
 *.egg-info/
 *.log
 
+# Misc
 docker/
 documentation/
 example_usage/
 img/
-settings/
+/settings/*
+!/settings/settings.json
+*.toml
+*temp*

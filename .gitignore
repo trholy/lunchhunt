@@ -6,5 +6,7 @@
 *.iml
 *.txt
 *.egg-info
-/settings
+/settings/*
+!/settings/settings.json
 /develop
+*temp*
