@@ -207,3 +207,32 @@ def create_cronjob(
         logging.info("Cron job added successfully.")
     except subprocess.CalledProcessError as e:
         logging.error(f"Failed to update crontab: {e}")
+
+
+def delete_cron_job(
+        selected_jobs: list
+) -> None:
+    """
+    Deletes the specified cron jobs for the user 'lunchhunt'.
+
+    param: selected_jobs; A list of strings representing the full cron
+     job strings to be deleted (list[str])
+    :return: None.
+    """
+    result = subprocess.run(
+        ["crontab", "-l", "-u", "lunchhunt"],
+        capture_output=True, text=True
+    )
+    existing_crontab = result.stdout if result.returncode == 0 else ""
+
+    # Filter out the jobs based on the full cron job string
+    new_lines = [
+        line for line in existing_crontab.splitlines()
+        if line.strip() not in selected_jobs
+    ]
+
+    new_crontab = "\n".join(new_lines) + "\n"
+    subprocess.run(
+        ["crontab", "-u", "lunchhunt", "-"],
+        input=new_crontab, text=True, check=True
+    )

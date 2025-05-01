@@ -7,7 +7,7 @@ from typing import Any
 
 from dash import Dash, Input, Output, State, dcc, html, no_update
 
-from lunchhunt.utils import create_cronjob, default_mensa_dict
+from lunchhunt.utils import create_cronjob, default_mensa_dict, delete_cron_job
 
 
 class LunchHuntApp:
@@ -690,24 +690,7 @@ class LunchHuntApp:
             """
             if n_clicks > 0 and selected_jobs:
                 try:
-                    result = subprocess.run(
-                        ["crontab", "-l", "-u", "lunchhunt"],
-                        capture_output=True, text=True
-                    )
-                    existing_crontab = result.stdout if result.returncode == 0 else ""
-
-                    # Filter out the jobs based on the full cron job string
-                    new_lines = [
-                        line for line in existing_crontab.splitlines()
-                        if line.strip() not in selected_jobs
-                    ]
-
-                    new_crontab = "\n".join(new_lines) + "\n"
-                    subprocess.run(
-                        ["crontab", "-u", "lunchhunt", "-"],
-                        input=new_crontab, text=True, check=True
-                    )
-
+                    delete_cron_job(selected_jobs)
                     return f"Successfully deleted {len(selected_jobs)} cron job(s)."
                 except subprocess.CalledProcessError as e:
                     return f"Error modifying crontab: {e!s}"
