@@ -1,7 +1,7 @@
 import logging
 from typing import Optional, Union
-
 from urllib.parse import urlparse, urlunparse
+
 import requests
 
 # Configure logging
