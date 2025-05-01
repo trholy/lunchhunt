@@ -657,15 +657,31 @@ class LunchHuntApp:
              operation, or an empty string if no deletion was performed (str)
             """
             if n_clicks > 0 and selected_profiles:
+                deleted_profiles = []
+
                 for profile in selected_profiles:
                     profile_path = os.path.join(self.settings_dir, profile)
                     try:
                         if os.path.exists(profile_path):
                             os.remove(profile_path)
+                            deleted_profiles.append(profile)
                         else:
                             return f"Profile '{profile}' does not exist."
                     except Exception as e:
                         return f"Error deleting '{profile}': {e!s}"
+
+                deleted_profiles = [
+                    s.removesuffix('.json') for s in deleted_profiles
+                ]
+
+                cronjobs = self.__get_existing_cronjobs()
+                selected_cronjobs = [
+                    job[1] for job in cronjobs
+                    if (match := re.search(r"-\s*(\w+)$", job[0]))
+                    and match.group(1) in deleted_profiles
+                ]
+                delete_cron_job(selected_cronjobs)
+
                 return f"Successfully deleted {len(selected_profiles)} profile(s)."
             return ""
 
