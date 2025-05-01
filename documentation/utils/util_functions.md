@@ -126,3 +126,33 @@ schedule_settings = {
 }
 create_cronjob(schedule_settings, settings_name="default", script_path="/path/to/script.py")
 ```
+## delete_cron_job
+
+The `delete_cron_job` function deletes the specified cron jobs for the user 'lunchhunt'. It reads the current cron jobs for the user, filters out the jobs specified in the `selected_jobs` list, and then updates the cron jobs with the remaining entries.
+
+### Function Signature
+
+```python
+def delete_cron_job(selected_jobs: list) -> None:
+```
+
+#### Parameters
+
+- `selected_jobs` (list[str]): A list of strings representing the full cron job strings to be deleted.
+
+#### Returns
+
+- `None`: This function does not return any value.
+
+### Example Usage
+
+```python
+# Example cron jobs to delete
+jobs_to_delete = [
+    "0 12 * * * /usr/bin/python3 /path/to/script.py",
+    "30 11 * * * /usr/bin/python3 /path/to/another_script.py"
+]
+
+# Delete the specified cron jobs
+delete_cron_job(jobs_to_delete)
+```
