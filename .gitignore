@@ -10,3 +10,4 @@
 !/settings/settings.json
 /develop
 *temp*
+!THIRD_PARTY_LICENSES.txt

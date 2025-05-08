@@ -46,3 +46,4 @@ img/
 !/settings/settings.json
 *.toml
 *temp*
+!THIRD_PARTY_LICENSES.txt
