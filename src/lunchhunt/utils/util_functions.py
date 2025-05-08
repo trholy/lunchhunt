@@ -133,7 +133,7 @@ def update_menu_categories(
 def create_cronjob(
         schedule_settings: dict,
         settings_name: Optional[str] = None,
-        conda_env_path: Optional[str] = None,
+        env_path: Optional[str] = None,
         log_path: Optional[str] = None,
         script_path: Optional[str] = None,
         cron_command: Optional[str] = None,
@@ -142,14 +142,13 @@ def create_cronjob(
     """
     Adds a cron job to the specified user's crontab based on the provided
      schedule settings. The job runs a Python script at specified times and
-     days, optionally within a conda environment.
+     days, optionally within a environment.
 
     param: schedule_settings (dict): Dictionary with 'hour', 'minute', and
      'alarm_days' keys to configure schedule.
     param: settings_name (str | None): Optional setting name passed to the
      script as an argument.
-    param: conda_env_path (str | None): Optional path to the conda Python
-     interpreter to use.
+    param: env_path (str | None): Optional path to the Python interpreter to use.
     param: log_path (str | None): Optional path for logging stdout and stderr.
     param: script_path (str | None): Optional path to the Python script
      to execute.
@@ -181,6 +180,8 @@ def create_cronjob(
     conda_env_path = (conda_env_path or
                       "/home/lunchhunt/miniconda/envs/lunchhunt/bin/python")
     log_path = log_path or "/home/lunchhunt/app/lunchhunt.log"
+    env_path = (env_path or
+                "/home/lunchhunt/miniconda/envs/lunchhunt/bin/python")
     user = user or "lunchhunt"
 
     cron_command = cron_command or (f"{cron_time} {conda_env_path}"
