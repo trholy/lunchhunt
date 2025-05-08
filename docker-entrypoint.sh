@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-# Start cron as root (needed to write to /var/run)
-service cron start
+# Start cron daemon in the background
+cron
 
-# Drop privileges and run your app as lunchhunt
-exec su -s /bin/bash lunchhunt -c "$*"
+# Launch the app as lunchhunt
+exec su -s /bin/bash lunchhunt -c "lunchhunt-web"
