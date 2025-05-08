@@ -176,15 +176,13 @@ def create_cronjob(
     ]
     cron_time = f"{minute} {hour} * * {','.join(days_of_week)}"
 
-    script_path = script_path or "/home/lunchhunt/app/run.py"
-    conda_env_path = (conda_env_path or
-                      "/home/lunchhunt/miniconda/envs/lunchhunt/bin/python")
-    log_path = log_path or "/home/lunchhunt/app/lunchhunt.log"
-    env_path = (env_path or
-                "/home/lunchhunt/miniconda/envs/lunchhunt/bin/python")
+    script_path = script_path or "run.py"
+    env_path = env_path or "/usr/local/bin/python"
+    log_path = log_path or "lunchhunt.log"
     user = user or "lunchhunt"
 
-    cron_command = cron_command or (f"{cron_time} {conda_env_path}"
+    cron_command = cron_command or (f"{cron_time}"
+                                    f" cd /home/{user}/app && {env_path}"
                                     f" {script_path} {settings_name or ''}"
                                     f" >> {log_path} 2>&1")
 
